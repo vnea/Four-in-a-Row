@@ -9,6 +9,35 @@
 		<script src="js/jquery-1.11.2.js" type=""></script>
 		<script src="js/bootstrap.min.js"></script>
 		<title>Accueil</title>
+		<script>
+			$(function() {
+
+				 function reposition() {
+					var modal = $(this),
+					dialog = modal.find('.modal-dialog');
+					modal.css('display', 'block');
+					// Dividing by two centers the modal exactly, but dividing by three
+					// or four works better for larger screens.
+					dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+				}
+
+				$('#myModal').on('shown.bs.modal', function () {
+					$('.modal:visible').each(reposition);
+					$('#myInput').focus();
+				});
+
+				 // Reposition when the window is resized
+				$(window).on('resize', function() {
+					$('.modal:visible').each(reposition);
+				});
+				 
+				$('#btnLaunchGame').click(function(){
+					$('#form').submit();
+				});
+				
+			});
+
+		</script>
 	</head>
 	<body>
 
@@ -23,7 +52,7 @@
 			         <span class="icon-bar"></span>
 			         <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="index.html">Puissance 4</a>
+			      <a class="navbar-brand" href="index.jsp">Puissance 4</a>
 			   </div>
 			   
 		      <div class="collapse navbar-collapse" id="navbarContent">
@@ -74,8 +103,69 @@
 
 			<div class="row text-center top-20">
 				<div class="col-xs-12">
-					<a class="btn btn-primary btn-lg" href="personalise.jsp" role="button">Partie personnalisée </a>
+					<!--<a class="btn btn-primary btn-lg"  href="personnalise.html" role="button">Partie personnalisée </a>-->
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+					  Partie personnalisée
+					</button>
+
 				</div>
+			</div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Paramètres de la partie</h4>
+			      </div>
+			      <div class="modal-body">
+			       	<form id="form" class="form-horizontal" method="POST" action="salon.jsp">
+						  <div class="form-group">
+
+
+						    <label class="col-sm-4 control-label" >Choix du pion :</label>
+						    <div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+			    				<input id="inputRed" type="radio" checked value="red" name="pion">
+						    </div>
+						    <div class="col-sm-2" style="margin-left:-80px; margin-top:8px;">
+						    	<label for="inputRed">
+						    		<img src="img/red.png" id="imgRed" class="img-responsive" alt="Jeton rouge" width="25px;">
+						    	</label>
+						    </div>
+
+						    <div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-left:-20px; margin-top:8px;">
+			    				<input id="inputYellow" type="radio" checked="" value="yellow" name="pion">
+						    </div>
+						    <div class="col-sm-2" style="margin-left:-80px; margin-top:8px;">
+						    	<label for="inputYellow">
+						    		<img src="img/yellow.png" id="imgYellow" class="img-responsive" alt="Jeton jaune" width="25px;">
+						    	</label>
+						    </div>
+
+						  </div>
+						  <div class="form-group">
+						    <label  class="col-sm-4 control-label">Qui commence ?</label>
+						    	<div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+						    		
+					    			<input type="radio" id="j1" name="j1" value="moi" checked>
+					    			<label for="j1"> Moi</label>
+						    	</div>
+						    	<div class="col-sm-3" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+						    		<input type="radio" id="ia" name="j1" value="ia"> 
+						    		<label for="ia"> Ordinateur</label>
+						    	</div>
+						  </div>
+						</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+			        <button type="button" id="btnLaunchGame" class="btn btn-primary">C'est parti !</button>
+			      </div>
+			    </div>
+			  </div>
 			</div>
 
 		</div>
