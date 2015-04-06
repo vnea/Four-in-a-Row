@@ -16,8 +16,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import orsay.lpper.model.Device;
-
 @ApplicationScoped
 @ServerEndpoint("/actions")
 public class DeviceWebSocketServer
@@ -50,24 +48,13 @@ public class DeviceWebSocketServer
 		{
             JsonObject jsonMessage = reader.readObject();
 
-            if ("add".equals(jsonMessage.getString("action")))
+            if ("play".equals(jsonMessage.getString("action")))
             {
-                Device device = new Device();
-                device.setName(jsonMessage.getString("name"));
-                device.setDescription(jsonMessage.getString("description"));
-                device.setType(jsonMessage.getString("type"));
-                device.setStatus("Off");
-                sessionHandler.addDevice(device);
+                sessionHandler.updateGame(jsonMessage.getInt("posX"));
             }
-
-            if ("remove".equals(jsonMessage.getString("action")))
+            else if ("init".equals(jsonMessage.getString("action")))
             {
-                sessionHandler.removeDevice((int) jsonMessage.getInt("id"));
-            }
-
-            if ("toggle".equals(jsonMessage.getString("action")))
-            {
-                sessionHandler.toggleDevice((int) jsonMessage.getInt("id"));
+            	sessionHandler.sendGame();
             }
         }
 	}

@@ -13,6 +13,7 @@ import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
 
+import orsay.lpper.game.Game;
 import orsay.lpper.model.Device;
 
 @ApplicationScoped
@@ -21,6 +22,7 @@ public class DeviceSessionHandler
     private int deviceId = 0;
 	private final Set<Session> sessions = new HashSet<Session>();
     private final Set<Device> devices = new HashSet<Device>();
+    private final Game game = new Game();
     
     public void addSession(Session session)
     {
@@ -37,6 +39,18 @@ public class DeviceSessionHandler
         sessions.remove(session);
     }
     
+    public void updateGame(int aPosX)
+    {
+    	game.play(aPosX);
+    	sendGame();
+    }
+    
+    public void sendGame()
+    {
+    	sendToAllConnectedSessions(game.getStateGame());
+    }
+    
+    
     public List<Device> getDevices()
     {
         return new ArrayList<>(devices);
@@ -51,6 +65,22 @@ public class DeviceSessionHandler
         sendToAllConnectedSessions(addMessage);
     }
 
+    public void sendPos(int pos)
+    {
+        JsonObject addMessage = createAddMessage(pos);
+        sendToAllConnectedSessions(addMessage);
+    }
+    
+    private JsonObject createAddMessage(int pos)
+    {
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject addMessage = provider.createObjectBuilder()
+                .add("action", "setPos")
+                .add("pos", pos)
+                .build();
+        return addMessage;
+    }
+    
     public void removeDevice(int id)
     {
         Device device = getDeviceById(id);

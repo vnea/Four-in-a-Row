@@ -1,25 +1,35 @@
 package orsay.lpper.game;
+import javax.json.JsonObject;
+
 import orsay.lpper.commons.Constants;
-import orsay.lpper.commons.enums.Color;
-import orsay.lpper.commons.enums.Player;
 
 public class Game 
 {
+	private int _id;
 	private Grid _gridGame;
-	private Color _colorP1;
-	private Color _colorP2;
+	private boolean _playerOneTurn = true;
 	
-	public Game(Color aColorP1, Color aColorP2)
+	public Game()
 	{
 		_gridGame = new Grid(Constants.C_NB_ROWS, Constants.C_NB_COLS);
-		_colorP1 = aColorP1;
-		_colorP2 = aColorP2;
+	}
+
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int id) {
+		_id = id;
 	}
 	
-	public void play(int aX, int aY, Player aPlayer)
+	public void play(int aPosX)
 	{
-		_gridGame.addPieceInSquare(aX, aY, aPlayer == Player.P1 ? new Piece(_colorP1) : new Piece(_colorP2));
+		_gridGame.addPiece(_playerOneTurn, aPosX);
+		_playerOneTurn = !_playerOneTurn;
 	}
 	
-	//>> TODO : V�rification joueur a gagn� 
+	public JsonObject getStateGame()
+	{
+		return _gridGame.getStateGrid().add("playerOneTurn", _playerOneTurn).build();
+	}
 }

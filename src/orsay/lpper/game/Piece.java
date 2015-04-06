@@ -11,4 +11,8 @@ public class Piece
 		_color = aColor;
 	}
 	
+	public Color getColor()
+	{
+		return _color;
+	}
 }

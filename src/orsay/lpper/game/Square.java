@@ -1,26 +1,28 @@
 package orsay.lpper.game;
 
+import orsay.lpper.commons.enums.Color;
+
 public class Square
 {
-	private Piece _piece;
+	private Piece _piece = null;
 	
 	public Square()
 	{
-		_piece = null;
+		
 	}
 	
-	public Square(Piece aPiece)
+	public void addPiece(Piece aPiece)
 	{
 		_piece = aPiece;
 	}
 	
-	public boolean addPiece(Piece aPiece)
+	public boolean isEmpty()
 	{
-		if(_piece == null)
-		{
-			_piece = aPiece;
-			return true;
-		}
-		return false;
+		return _piece == null;
+	}
+	
+	public Color getPieceColor()
+	{
+		return _piece.getColor();
 	}
 }
