@@ -6,8 +6,12 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/style.css">
+
+		
 		<script src="js/jquery-1.11.2.js" type=""></script>
 		<script src="js/bootstrap.min.js"></script>
+		
+		
 		<script type="text/javascript" src="js/salon.js"></script>
 		<title>Salon</title>
 	</head>
@@ -32,7 +36,7 @@
 			      	<li><a href="index.jsp">Accueil</a></li>
 			         <li><a href="#">Rooms</a></li>
 			         <li><a href="#">Tournois</a></li>
-			         <li><a href="#">Stats</a></li>
+			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 
 		        <ul class="nav navbar-nav navbar-right margin-right-5">
@@ -72,7 +76,7 @@
 				<div class="col-xs-8" >
 					<div class="row text-center margin-top-hackNavbar">
 						<div class="col-xs-12">
-							<canvas id="mainCanvas" width="750" height="700" style="border:solid 1px black;">
+							<canvas id="mainCanvas" width="750" height="700">
 								Not compatible.
 							</canvas>
 						</div>
@@ -86,7 +90,7 @@
 							<img src="img/computer.png" class="img-responsive image-center" alt="Responsive image" >
 						</div>
 						<div class="col-xs-12 top-20">
-							<img src="img/gray.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
+							<img src="img/gray_pion.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
 						</div>
 					</div>
 					<div class="row text-center">

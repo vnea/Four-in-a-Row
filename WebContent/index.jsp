@@ -30,11 +30,6 @@
 				$(window).on('resize', function() {
 					$('.modal:visible').each(reposition);
 				});
-				 
-				$('#btnLaunchGame').click(function(){
-					$('#form').submit();
-				});
-				
 			});
 
 		</script>
@@ -58,9 +53,9 @@
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
 			      	<li class="active"><a href="#">Accueil</a></li>
-			         <li><a href="#">Rooms</a></li>
+			         <li><a href="rooms.jsp">Rooms</a></li>
 			         <li><a href="#">Tournois</a></li>
-			         <li><a href="#">Stats</a></li>
+			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 
 		        <ul class="nav navbar-nav navbar-right margin-right-5">
@@ -122,24 +117,24 @@
 			        <h4 class="modal-title" id="myModalLabel">Paramètres de la partie</h4>
 			      </div>
 			      <div class="modal-body">
-			       	<form id="form" class="form-horizontal" method="POST" action="salon.jsp">
+			       	<form class="form-horizontal" method="POST" action="servlet">
 						  <div class="form-group">
 
 
-						    <label class="col-sm-4 control-label" >Choix du pion :</label>
-						    <div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-			    				<input id="inputRed" type="radio" checked value="red" name="pion">
+						    <label class="col-xs-4 control-label" >Choix du pion :</label>
+						    <div class="col-xs-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+			    				<input id="inputRed" type="radio" checked="" value="red" name="pion">
 						    </div>
-						    <div class="col-sm-2" style="margin-left:-80px; margin-top:8px;">
+						    <div class="col-xs-2" style="margin-left:-80px; margin-top:8px;">
 						    	<label for="inputRed">
 						    		<img src="img/red.png" id="imgRed" class="img-responsive" alt="Jeton rouge" width="25px;">
 						    	</label>
 						    </div>
 
-						    <div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-left:-20px; margin-top:8px;">
+						    <div class="col-xs-2" style="margin-right: 2px; padding: 0px; margin-left:-20px; margin-top:8px;">
 			    				<input id="inputYellow" type="radio" checked="" value="yellow" name="pion">
 						    </div>
-						    <div class="col-sm-2" style="margin-left:-80px; margin-top:8px;">
+						    <div class="col-xs-2" style="margin-left:-80px; margin-top:8px;">
 						    	<label for="inputYellow">
 						    		<img src="img/yellow.png" id="imgYellow" class="img-responsive" alt="Jeton jaune" width="25px;">
 						    	</label>
@@ -147,13 +142,13 @@
 
 						  </div>
 						  <div class="form-group">
-						    <label  class="col-sm-4 control-label">Qui commence ?</label>
-						    	<div class="col-sm-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+						    <label  class="col-xs-4 control-label">Qui commence ?</label>
+						    	<div class="col-xs-2" style="margin-right: 2px; padding: 0px; margin-top:8px;">
 						    		
 					    			<input type="radio" id="j1" name="j1" value="moi" checked>
 					    			<label for="j1"> Moi</label>
 						    	</div>
-						    	<div class="col-sm-3" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+						    	<div class="col-xs-3" style="margin-right: 2px; padding: 0px; margin-top:8px;">
 						    		<input type="radio" id="ia" name="j1" value="ia"> 
 						    		<label for="ia"> Ordinateur</label>
 						    	</div>
@@ -162,7 +157,7 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
-			        <button type="button" id="btnLaunchGame" class="btn btn-primary">C'est parti !</button>
+			        <button type="button" class="btn btn-primary">C'est parti !</button>
 			      </div>
 			    </div>
 			  </div>
