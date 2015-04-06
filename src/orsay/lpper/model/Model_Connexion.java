@@ -30,7 +30,7 @@ public class Model_Connexion {
 		try 
 		{
 			// SQL to check if the person exist in DB
-			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM personne WHERE Login = ? AND Mdp = ?");
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM user WHERE Pseudo = ? AND Mdp = ?");
 			ps.setString(1, login);
 			ps.setString(2, sha1(mdp));
 
@@ -43,6 +43,24 @@ public class Model_Connexion {
 		}
 		return null;
 	}
+	
+	public int inscription(String aPseudo, String aPassword) throws NoSuchAlgorithmException
+	{
+		try {
+			PreparedStatement ps = connexion.prepareStatement("INSERT INTO USER(Pseudo, Mdp, NbMatchGagne, NbMatchPerdu, NbMatchNul) VALUES (?, ?, 0, 0, 0)");
+			ps.setString(1, aPseudo);
+			ps.setString(2, sha1(aPassword));
+			int myResult = ps.executeUpdate();
+			return myResult;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+		
+	}
+	
+	
 	   public static String sha1(String input) throws NoSuchAlgorithmException {
 	        byte[] result = MessageDigest.getInstance("SHA1").digest(input.getBytes());
 	        StringBuffer sb = new StringBuffer();

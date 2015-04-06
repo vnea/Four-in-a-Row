@@ -11,6 +11,19 @@
 		<title>Accueil</title>
 		<script>
 			$(function() {
+				$("#linkInscription").click(function(){
+					$('#modalInscription').modal();
+				});
+				
+				$("#linkConnection").click(function(){
+					$('#modalConnection').modal();
+				});
+				
+				
+				
+				$("#logout").click(function(){
+					$("#formLogOut").submit();
+				});
 
 				 function reposition() {
 					var modal = $(this),
@@ -25,17 +38,42 @@
 					$('.modal:visible').each(reposition);
 					$('#myInput').focus();
 				});
-
+				
+				$('#modalInscription').on('shown.bs.modal', function () {
+					$('.modal:visible').each(reposition);
+					$('#myInput').focus();
+				});
+				
+				$('#modalConnection').on('shown.bs.modal', function () {
+					$('.modal:visible').each(reposition);
+					$('#myInput').focus();
+				});
+				
 				 // Reposition when the window is resized
 				$(window).on('resize', function() {
 					$('.modal:visible').each(reposition);
 				});
+				 
+				$("#btnInscription").click(function(){
+					$("#formInscription").submit();
+				});
+				
+				$("#btnConnection").click(function(){
+					$("#formConnection").submit();
+				});
+				
+				
 			});
 
 		</script>
 	</head>
 	<body>
-
+	<%
+	String pseudo = (String)session.getAttribute("pseudo");
+	Integer idUser = (Integer)session.getAttribute("idUser");
+	%>
+	 <input type="hidden" name="pseudo" value="<% out.print(pseudo);%>"> 
+	 <input type="hidden" name="idUser" value="<% out.print(idUser);%>">
 	<div class="container-fluid">
 		<header class="navbar navbar-bright navbar-fixed-top" role="banner" >
 			<nav class="navbar navbar-inverse navbar-fixed-top" >
@@ -62,13 +100,23 @@
 		         <li class="dropdown">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-		        		VictorOuConnexion <b class="caret"></b>
+		            	
+		        		<%if(pseudo != null){ out.print(pseudo);%>
+		        		<%}else{ %>
+		        		Invité
+		        		<%} %>
+		        		 <b class="caret"></b>
 		            </a>
 		            <ul class="dropdown-menu">
+		            <%if(pseudo != null){%>
 		               <li><a href="#">Mon Compte</a></li>
 		              <li><a href="#">Mes stats</a></li>
-		               <li><a href="#">Déconnexion</a></li>
-
+		               <li><a href="#" id="logout">Déconnexion</a></li>
+					<%}
+		            else{%>
+		               <li><a href="#" id="linkConnection">Connexion</a></li>
+		              <li><a href="#" id="linkInscription">S'inscrire</a></li>
+		              <%} %>
 		            </ul>
 		         </li>
 		      </ul>
@@ -84,7 +132,7 @@
 							<img src="img/user3.png" class="img-responsive image-center" alt="Responsive image" >
 						</div>
 						<div class="col-xs-12">
-							<h2>Bonjour !</h2>
+							<h2>Bonjour <%if(pseudo != null){ out.print(pseudo); }%> !</h2>
 						</div>
 					</div>
 					
@@ -162,7 +210,79 @@
 			    </div>
 			  </div>
 			</div>
+			
+			<div class="modal fade" id="modalInscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Création compte</h4>
+			      </div>
+			      <div class="modal-body">
+			       	<form id="formInscription" class="form-horizontal" method="POST" action="Connection">
+						  <div class="form-group">
+						    <label  class="col-xs-5 control-label" for="pseudo">Pseudo :</label>
+						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+					    			<input type="pseudo"  class="form-control" id="pseudo" name="pseudo">
+						    	</div>
+						  </div>
+  						  <div class="form-group">
+						    <label  class="col-xs-5 control-label" for="newPassword">Mot de passe :</label>
+						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+					    			<input type="password"   class="form-control" id="password" name="password">
+						    	</div>
+						  </div>
 
+						  <div class="form-group">
+						    <label  class="col-xs-5 control-label" for="confirmPassword">Confirmation :</label>
+						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+					    			<input type="password"  class="form-control" id="confirmPassword" name="confirmPassword">
+						    	</div>
+						  </div>
+						</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+			        <button id="btnInscription" type="button" class="btn btn-primary">Valider</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<div class="modal fade" id="modalConnection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Connexion</h4>
+			      </div>
+			      <div class="modal-body">
+			       	<form id="formConnection" class="form-horizontal" method="POST" action="Connection">
+						  <div class="form-group">
+						    <label  class="col-xs-5 control-label" for="pseudo">Pseudo :</label>
+						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+					    			<input type="pseudo"  class="form-control" name="pseudo">
+						    	</div>
+						  </div>
+  						  <div class="form-group">
+						    <label  class="col-xs-5 control-label" for="password">Mot de passe :</label>
+						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
+					    			<input type="password"  class="form-control" name="password">
+						    	</div>
+						  </div>
+						</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+			        <button id="btnConnection" type="button" class="btn btn-primary">Valider</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<form id="formLogOut" action="Connection" method="GET" style="display:none;">
+				<input type="text" name="logout" value="true">
+			</form>
 		</div>
 	</div>
 	</body>
