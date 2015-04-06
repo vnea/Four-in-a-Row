@@ -34,7 +34,6 @@ var ROOM = {
 		    
 		    ROOM.env.socket.send(JSON.stringify(gameAction));
 		}, 1000);
-
 	},
 	
 	onMessage: function (event) {
@@ -103,93 +102,3 @@ var ROOM = {
 }
 
 window.onload = ROOM.init;
-
-//
-//function onMessage(event) {
-//    var device = JSON.parse(event.data);
-//    
-//    if (device.action === "setPos") {
-//		var piece = new Image();
-//		piece.src = "img/red.png";
-//		piece.onload = function() {
-//			var c = document.getElementById("mainCanvas");
-//			var ctx = c.getContext("2d");
-//			ctx.drawImage(this, posMouse * 105 + 10, 60);
-//			for (var i = 0; i < device.pos; ++i) {
-//				drawImage(ctx, piece, posMouse * 105 + 10, 105 * i + 165, posMouse * 105 + 60, 105 * i + 110, i);
-//			}
-//		};
-//    }
-//    
-////    if (device.action === "add") {
-////        printDeviceElement(device);
-////    }
-////    if (device.action === "remove") {
-////        document.getElementById(device.id).remove();
-////        //device.parentNode.removeChild(device);
-////    }
-////    if (device.action === "toggle") {
-////        var node = document.getElementById(device.id);
-////        var statusText = node.children[2];
-////        if (device.status === "On") {
-////            statusText.innerHTML = "Status: " + device.status + " (<a href=\"#\" OnClick=toggleDevice(" + device.id + ")>Turn off</a>)";
-////        } else if (device.status === "Off") {
-////            statusText.innerHTML = "Status: " + device.status + " (<a href=\"#\" OnClick=toggleDevice(" + device.id + ")>Turn on</a>)";
-////        }
-////    }
-//}
-//
-//
-//
-//
-//
-//
-//
-//
-//function init() {
-//	var c = document.getElementById("mainCanvas");
-//	var ctx = c.getContext("2d");
-//	
-//	var image = new Image(); 
-//	image.src = 'img/background_grid.png';
-//	image.onload = function() {
-//		ctx.drawImage(this, 0, 0);
-//		
-//		var size = 105;
-//		for (var i = 0; i < 7; ++i) {
-//			for (var j = 0; j < 6; ++j) {
-//				drawCircle(ctx, size * i + 60, size * j + 110, "white"); 
-//			}
-//		}
-//	};
-//	
-//	c.addEventListener("click", function (event) {
-//		var x = event.pageX;
-//		var y = event.pageY;
-//		
-//		posMouse = Math.floor(x / (750 / 7));
-//		
-//	    var DeviceAction = {
-//	            action: "setPos",
-//	            pos: 2
-//	    };
-//	    
-//	    socket.send(JSON.stringify(DeviceAction));
-//	});
-//}
-//
-//var drawCircle = function (ctx, x, y) {
-//	ctx.beginPath();
-//	ctx.arc(x, y, 50, 0, 2 * Math.PI);
-//	ctx.fillStyle = "white";
-//	ctx.fill();
-//	ctx.stroke();
-//	ctx.closePath();
-//}
-//
-//function drawImage(ctx, piece, x, y, xP, yP, i)  {
-//	setTimeout(function () {
-//		ctx.drawImage(piece, x, y);
-//		drawCircle(ctx, xP, yP, "white");
-//	}, (i + 1) * 100);
-//}

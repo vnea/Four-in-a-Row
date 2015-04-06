@@ -21,7 +21,7 @@
 		<header class="navbar navbar-bright navbar-fixed-top" role="banner" >
 			<nav class="navbar navbar-inverse navbar-fixed-top" >
 			   <div class="navbar-header">
-			      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+			      <button type="button" class="navbar-toggle" data-toggle="collapse">
 			         data-target="#navbarContent">
 			         <span class="sr-only">Toggle navigation</span>
 			         <span class="icon-bar"></span>
@@ -90,7 +90,7 @@
 							<img src="img/computer.png" class="img-responsive image-center" alt="Responsive image" >
 						</div>
 						<div class="col-xs-12 top-20">
-							<img src="img/gray_pion.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
+							<img src="img/gray.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
 						</div>
 					</div>
 					<div class="row text-center">
