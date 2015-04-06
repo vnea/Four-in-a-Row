@@ -24,12 +24,12 @@
 			         <span class="icon-bar"></span>
 			         <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="index.html">Puissance 4</a>
+			      <a class="navbar-brand" href="index.jsp">Puissance 4</a>
 			   </div>
 			   
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
-			      	<li><a href="index.html">Accueil</a></li>
+			      	<li><a href="index.jsp">Accueil</a></li>
 			         <li><a href="#">Rooms</a></li>
 			         <li><a href="#">Tournois</a></li>
 			         <li><a href="#">Stats</a></li>
