@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/jquery-1.11.2.js" type=""></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/websocket.js"></script>
+		<script type="text/javascript" src="js/salon.js"></script>
 		<title>Salon</title>
 	</head>
 	<body>
@@ -24,12 +24,12 @@
 			         <span class="icon-bar"></span>
 			         <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="index.html">Puissance 4</a>
+			      <a class="navbar-brand" href="index.jsp">Puissance 4</a>
 			   </div>
 			   
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
-			      	<li><a href="index.html">Accueil</a></li>
+			      	<li><a href="index.jsp">Accueil</a></li>
 			         <li><a href="#">Rooms</a></li>
 			         <li><a href="#">Tournois</a></li>
 			         <li><a href="#">Stats</a></li>

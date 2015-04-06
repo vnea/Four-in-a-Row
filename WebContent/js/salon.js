@@ -1,33 +1,30 @@
-
-//var socket = new WebSocket("ws://localhost:8080/FourInARow/actions");
-//socket.onmessage = onMessage;
-
-var APP = {
+var ROOM = {
 	env : {
 		ctx: null,
 		socket: new WebSocket("ws://localhost:8080/FourInARow/actions"),
 		nbRows: 6,
 		nbCols: 7,
 		circleSize: 105,
-		canvasWidth: 750,
+		canvasWidth: 752,
 		speedInMs: 100
 	},
 	
 	init: function () {
 		var canvas = document.getElementById("mainCanvas");
-		APP.env.ctx = canvas.getContext("2d");
-		APP.drawImage("background_grid", 0, 0);
+		ROOM.env.ctx = canvas.getContext("2d");
+		ROOM.drawImage("background_grid", 0, 0);
 		
-		APP.env.socket.onmessage = APP.onMessage;
+		ROOM.env.socket.onmessage = ROOM.onMessage;
 		
 		canvas.addEventListener("click", function (event) {
-			var posCursorX = Math.floor(event.pageX / (APP.env.canvasWidth / APP.env.nbCols));
+			var x = event.pageX - $(canvas).offset().left;
+			var posCursorX = Math.floor(x / (ROOM.env.canvasWidth / ROOM.env.nbCols));
 		    var gameAction = {
 		            action: "play",
 		            posX: posCursorX
 		    };
 		    
-		    APP.env.socket.send(JSON.stringify(gameAction));
+		    ROOM.env.socket.send(JSON.stringify(gameAction));
 		});
 		
 		setTimeout(function () {
@@ -35,71 +32,77 @@ var APP = {
 		            action: "init"
 		    };
 		    
-		    APP.env.socket.send(JSON.stringify(gameAction));
+		    ROOM.env.socket.send(JSON.stringify(gameAction));
 		}, 1000);
 
 	},
 	
 	onMessage: function (event) {
 		var game = JSON.parse(event.data);
-		//alert(JSON.stringify(game));
 		if (game.action === "update" || game.action === "init") {
-			for (var i = 0; i < APP.env.nbRows; ++i) {
-				for (var j = 0; j < APP.env.nbCols; ++j) {
-					var index = i + j * APP.env.nbCols;
+			for (var i = 0; i < ROOM.env.nbRows; ++i) {
+				for (var j = 0; j < ROOM.env.nbCols; ++j) {
+					var index = i + j * ROOM.env.nbCols;
 					if (game[index] === "empty") {
-						APP.drawCircle(j * APP.env.circleSize + 60, i * APP.env.circleSize + 110); 
+						ROOM.drawCircle(j * ROOM.env.circleSize + 60, i * ROOM.env.circleSize + 110); 
 					}
 					else {
 						if (game.lastPosX != j || game.lastPosY != i) {
-							APP.drawImage(game[index], j * APP.env.circleSize + 10, i * APP.env.circleSize + 60);
+							ROOM.drawImage(game[index], j * ROOM.env.circleSize + 10, i * ROOM.env.circleSize + 60);
 						}
 					}
 				}
 			}
 			
-			if (game.lastPosX != -1 || game.lastPosY != -1) {
-				var op = parseInt(game.lastPosY) + parseInt(game.lastPosX) * APP.env.nbCols;
-				APP.drawDescendingPiece(game[op], parseInt(game.lastPosX),  parseInt(game.lastPosY));
+			if (game.lastMoveOk && (game.lastPosX != -1 || game.lastPosY != -1)) {
+				if (game.lastMoveOk) {
+					game.lastPosX = parseInt(game.lastPosX);
+					game.lastPosY = parseInt(game.lastPosY);
+					var index = game.lastPosY + parseInt(game.lastPosX) * ROOM.env.nbCols;
+					ROOM.drawDescendingPiece(game[index], game.lastPosX, game.lastPosY);
+				}
+				else {
+					alert("Invalid move.");
+				}
 			}
 		}
 	},
 	
 	drawCircle: function (posX, posY) {
-		APP.env.ctx.beginPath();
-		APP.env.ctx.arc(posX, posY, 50, 0, 2 * Math.PI);
-		APP.env.ctx.fillStyle = "white";
-		APP.env.ctx.fill();
-		APP.env.ctx.stroke();
-		APP.env.ctx.closePath();
+		ROOM.env.ctx.beginPath();
+		ROOM.env.ctx.arc(posX, posY, 50, 0, 2 * Math.PI);
+		ROOM.env.ctx.fillStyle = "white";
+		ROOM.env.ctx.fill();
+		ROOM.env.ctx.stroke();
+		ROOM.env.ctx.closePath();
 	},
 	
 	drawImage: function (pieceName, posX, posY) {
 		var piece = new Image();
 		piece.src = "img/" + pieceName + ".png"
 		piece.onload = function () {
-			APP.env.ctx.drawImage(this, posX, posY);
+			ROOM.env.ctx.drawImage(this, posX, posY);
 		}
 	},
 	
 	drawAndClearPiece: function (pieceName, posX, posY, posXC, posYC, i) {
 		setTimeout(function () {
-			APP.drawImage(pieceName, posX, posY);
-			APP.drawCircle(posXC, posYC);
-		}, (i + 1) * APP.env.speedInMs);
+			ROOM.drawImage(pieceName, posX, posY);
+			ROOM.drawCircle(posXC, posYC);
+		}, (i + 1) * ROOM.env.speedInMs);
 	},
 	
 	drawDescendingPiece: function (pieceName, lastPosX, lastPosY) {
-		APP.drawImage(pieceName, lastPosX * APP.env.circleSize + 10, 60);
+		ROOM.drawImage(pieceName, lastPosX * ROOM.env.circleSize + 10, 60);
 		for (var i = 0; i < lastPosY; ++i) {
-			var x = lastPosX * APP.env.circleSize;
-			var y = i * APP.env.circleSize;
-			APP.drawAndClearPiece(pieceName, x + 10, y + 165, x + 60, y + 110, i);
+			var x = lastPosX * ROOM.env.circleSize;
+			var y = i * ROOM.env.circleSize;
+			ROOM.drawAndClearPiece(pieceName, x + 10, y + 165, x + 60, y + 110, i);
 		}
 	}
 }
 
-window.onload = APP.init;
+window.onload = ROOM.init;
 
 //
 //function onMessage(event) {
