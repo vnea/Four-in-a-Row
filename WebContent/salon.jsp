@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/jquery-1.11.2.js" type=""></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/salon.js"></script>
+		<script type="text/javascript" src="js/websocket.js"></script>
 		<title>Salon</title>
 	</head>
 	<body>
