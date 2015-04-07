@@ -127,7 +127,7 @@ var GAME = {
 					}
 				}
 				
-				if (game.lastMoveOk && (game.lastPosX != -1 || game.lastPosY != -1)) {
+				if (game.lastPosX != -1 || game.lastPosY != -1) {
 					if (game.lastMoveOk) {
 						game.lastPosX = parseInt(game.lastPosX);
 						game.lastPosY = parseInt(game.lastPosY);
@@ -135,7 +135,7 @@ var GAME = {
 						GAME.drawDescendingPiece(game[index], game.lastPosX, game.lastPosY);
 					}
 					else {
-						alert("Invalid move.");
+						alert("Coup invalide !");
 					}
 				}
 			}
