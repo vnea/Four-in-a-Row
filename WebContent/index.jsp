@@ -106,7 +106,6 @@
 			      <ul class="nav navbar-nav">
 			      	<li class="active"><a href="#">Accueil</a></li>
 			         <li><a href="rooms.jsp">Rooms</a></li>
-			         <li><a href="#">Tournois</a></li>
 			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 
@@ -311,7 +310,6 @@
 			      </div>
 			      <div class="modal-body">
 			      		<%out.print(msgError);%>
-				      	<input type="text">
 			      </div>
 			      <div class="modal-footer">
 
@@ -337,12 +335,7 @@
 				session.invalidate();
 
 			} 
-			%>
-					
-			
-			
-			
-			
+			%>			
 			<form id="formLogOut" action="Connection" method="GET" style="display:none;">
 				<input type="text" name="logout" value="true">
 			</form>

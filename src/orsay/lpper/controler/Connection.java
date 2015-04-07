@@ -59,7 +59,7 @@ public class Connection extends HttpServlet {
 			
 			if(confirmPassword != null) // Création compte 
 			{
-				ResultSet rs = _model.connection(pseudo, password); // Vérification pseudo existant
+				ResultSet rs = _model.getUserWithPseudo(pseudo); // Vérification pseudo existant
 				if(!rs.next()) // Aucun utilisateur ayant ce pseudo
 				{
 					result = _model.inscription(pseudo, password);

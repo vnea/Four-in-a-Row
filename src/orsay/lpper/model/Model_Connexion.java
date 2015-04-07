@@ -44,6 +44,58 @@ public class Model_Connexion {
 		return null;
 	}
 	
+	public ResultSet getUserWithPseudo(String aPseudo)
+	{
+		try 
+		{
+			// SQL to check if the person exist in DB
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM user WHERE Pseudo = ?");
+			ps.setString(1, aPseudo);
+
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return null;
+	}
+	
+	public ResultSet connectionWithId(int aUserId, String aPassword)
+	{
+		try 
+		{
+			// SQL to check if the person exist in DB
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM user WHERE  IdUser = ? AND Mdp = ?");
+			ps.setInt(1, aUserId);
+			ps.setString(2, sha1(aPassword));
+			
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return null;
+	}
+	
+	public int modifPassword(int aUserId, String aPassword) throws NoSuchAlgorithmException
+	{
+		try {
+			PreparedStatement ps = connexion.prepareStatement("UPDATE USER set Mdp = ? WHERE IdUser = ?)");
+			ps.setString(1, sha1(aPassword));
+			ps.setInt(2, aUserId);
+			int myResult = ps.executeUpdate();
+			return myResult;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public int inscription(String aPseudo, String aPassword) throws NoSuchAlgorithmException
 	{
 		try {
