@@ -6,11 +6,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
+		
 		<script src="js/jquery-1.11.2.js" type=""></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.validationEngine-fr.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 		<title>Accueil</title>
 		<script>
 			$(function() {
+
+				$("#formInscription").validationEngine('attach');
+				$("#formConnection").validationEngine('attach');
+				
+				
 				$("#linkInscription").click(function(){
 					$('#modalInscription').modal();
 				});
@@ -45,6 +54,11 @@
 				});
 				
 				$('#modalConnection').on('shown.bs.modal', function () {
+					$('.modal:visible').each(reposition);
+					$('#myInput').focus();
+				});
+				
+				$('#modalError').on('shown.bs.modal', function () {
 					$('.modal:visible').each(reposition);
 					$('#myInput').focus();
 				});
@@ -156,7 +170,7 @@
 			</div>
 
 
-			<!-- Modal -->
+			<!-- MODALE PARTIE PERSONNALISEE-->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -211,6 +225,7 @@
 			  </div>
 			</div>
 			
+			<!-- MODALE D'INSCRIPTION -->
 			<div class="modal fade" id="modalInscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -223,20 +238,20 @@
 						  <div class="form-group">
 						    <label  class="col-xs-5 control-label" for="pseudo">Pseudo :</label>
 						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-					    			<input type="pseudo"  class="form-control" id="pseudo" name="pseudo">
+					    			<input type="pseudo"  class="form-control validate[required]" id="pseudo" name="pseudo">
 						    	</div>
 						  </div>
   						  <div class="form-group">
 						    <label  class="col-xs-5 control-label" for="newPassword">Mot de passe :</label>
 						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-					    			<input type="password"   class="form-control" id="password" name="password">
+					    			<input type="password"   class="form-control validate[required]" id="password" name="password">
 						    	</div>
 						  </div>
 
 						  <div class="form-group">
 						    <label  class="col-xs-5 control-label" for="confirmPassword">Confirmation :</label>
 						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-					    			<input type="password"  class="form-control" id="confirmPassword" name="confirmPassword">
+					    			<input type="password"  class="form-control validate[required, equals[password]]" id="confirmPassword" name="confirmPassword">
 						    	</div>
 						  </div>
 						</form>
@@ -249,6 +264,7 @@
 			  </div>
 			</div>
 			
+			<!-- MODAL DE CONNEXION -->
 			<div class="modal fade" id="modalConnection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -261,13 +277,13 @@
 						  <div class="form-group">
 						    <label  class="col-xs-5 control-label" for="pseudo">Pseudo :</label>
 						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-					    			<input type="pseudo"  class="form-control" name="pseudo">
+					    			<input type="pseudo"  class="form-control validate[required]" name="pseudo">
 						    	</div>
 						  </div>
   						  <div class="form-group">
 						    <label  class="col-xs-5 control-label" for="password">Mot de passe :</label>
 						    	<div class="col-xs-5" style="margin-right: 2px; padding: 0px; margin-top:8px;">
-					    			<input type="password"  class="form-control" name="password">
+					    			<input type="password"  class="form-control validate[required]" name="password">
 						    	</div>
 						  </div>
 						</form>
@@ -279,6 +295,53 @@
 			    </div>
 			  </div>
 			</div>
+			
+			<%Boolean error = (Boolean)session.getAttribute("error");
+			if(error != null && error){ 
+				String typeError = (String)session.getAttribute("typeError");
+				String msgError = (String)session.getAttribute("msgError");
+				String modal = (String)session.getAttribute("modal");%>
+			<!-- MODAL ERREUR -->
+			<div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="myModalLabel"><%out.print(typeError);%></h4>
+			      </div>
+			      <div class="modal-body">
+			      		<%out.print(msgError);%>
+				      	<input type="text">
+			      </div>
+			      <div class="modal-footer">
+
+			        <button id="btnOkError" type="button" class="btn btn-primary">Ok</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<%
+				StringBuilder sb = new StringBuilder();
+			
+				sb.append("<script>$('#modalError').modal(); $('#btnOkError').click(function(){$('#modalError').modal('hide');");
+				if(modal == "connexion")
+					sb.append("$('#modalConnection').modal();");
+				else
+					sb.append("$('#modalInscription').modal();");
+				sb.append("});");
+				sb.append("$('#modalError').on('shown.bs.modal', function () {$('.modal:visible').each(reposition);$('#myInput').focus();});");
+				sb.append("</script>");
+				
+				out.print(sb.toString());
+				session.invalidate();
+
+			} 
+			%>
+					
+			
+			
+			
 			
 			<form id="formLogOut" action="Connection" method="GET" style="display:none;">
 				<input type="text" name="logout" value="true">

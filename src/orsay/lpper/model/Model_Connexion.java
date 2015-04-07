@@ -47,7 +47,7 @@ public class Model_Connexion {
 	public int inscription(String aPseudo, String aPassword) throws NoSuchAlgorithmException
 	{
 		try {
-			PreparedStatement ps = connexion.prepareStatement("INSERT INTO USER(Pseudo, Mdp, NbMatchGagne, NbMatchPerdu, NbMatchNul) VALUES (?, ?, 0, 0, 0)");
+			PreparedStatement ps = connexion.prepareStatement("INSERT INTO USER(Pseudo, Mdp, NbMatchGagne, NbMatchPerdu, NbMatchNul, NbMatchGagneOnLine, NbMatchPerduOnLine, NbMatchNulOnLine) VALUES (?, ?, 0, 0, 0, 0, 0, 0)");
 			ps.setString(1, aPseudo);
 			ps.setString(2, sha1(aPassword));
 			int myResult = ps.executeUpdate();

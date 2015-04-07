@@ -57,54 +57,118 @@ public class Connection extends HttpServlet {
 		int result;
 		try {
 			
-			if(confirmPassword != null)
+			if(confirmPassword != null) // Création compte 
 			{
-				result = _model.inscription(pseudo, password);
-				if(result > 0)
+				ResultSet rs = _model.connection(pseudo, password); // Vérification pseudo existant
+				if(!rs.next()) // Aucun utilisateur ayant ce pseudo
 				{
-					ResultSet rs = _model.connection(pseudo, password);
-					int idUser = -1;
-					int cpt = 0;
-					while(rs.next())
+					result = _model.inscription(pseudo, password);
+					if(result > 0) // Inscription : succès
 					{
-						idUser = rs.getInt("IdUser");
-						++cpt;
-					}
-					
-					HttpSession s = request.getSession();
-					
-					if(cpt > 0)
-					{
-						s.setAttribute("pseudo", pseudo);
-						s.setAttribute("idUser", idUser);
-					}
-					
-					s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-				}
-				else
-				{
-					HttpSession s = request.getSession();
-					s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-				}
+						ResultSet rs2 = _model.connection(pseudo, password);
+						int idUser = -1;
+						int nbMatchGagneSolo = 0;
+						int nbMatchPerduSolo = 0;
+						int nbMatchNulSolo = 0;
+						
+						int nbMatchGagneOnline = 0;
+						int nbMatchPerduOnline = 0;
+						int nbMatchNulOnline = 0;
+						int cpt = 0;
+						while(rs2.next())
+						{
+							idUser = rs2.getInt("IdUser");
+							nbMatchGagneSolo = rs2.getInt("NbMatchGagne");
+							nbMatchPerduSolo = rs2.getInt("NbMatchPerdu");
+							nbMatchNulSolo = rs2.getInt("NbMatchNul");
+							
+							nbMatchGagneOnline = rs2.getInt("NbMatchGagneOnLine");
+							nbMatchPerduOnline = rs2.getInt("NbMatchPerduOnLine");
+							nbMatchNulOnline = rs2.getInt("NbMatchNulOnLine");
+							++cpt;
+						}
+						
+						HttpSession s = request.getSession();
+						
+						if(cpt > 0)
+						{
+							s.setAttribute("pseudo", pseudo);
+							s.setAttribute("idUser", idUser);
+							
+							s.setAttribute("nbMatchGagneSolo", nbMatchGagneSolo);
+							s.setAttribute("nbMatchPerduSolo", nbMatchPerduSolo);
+							s.setAttribute("nbMatchNulSolo", nbMatchNulSolo);
+							s.setAttribute("nbMatchGagneOnline", nbMatchGagneOnline);
+							s.setAttribute("nbMatchPerduOnline", nbMatchPerduOnline);
+							s.setAttribute("nbMatchNulOnline", nbMatchNulOnline);
 
+						}
+						
+						s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+					}
+					else // Echec inscription
+					{
+						HttpSession s = request.getSession();
+						s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+					}
+				}
+				else // Utilisateur déjà existant
+				{
+					HttpSession s = request.getSession();
+					s.setAttribute("error", true);
+					s.setAttribute("typeError", "Erreur d'inscription");
+					s.setAttribute("msgError", "Le pseudo que vous avez choisi est déjà utilisé");
+					s.setAttribute("modal", "inscription");
+					
+					s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+				}
 			}
-			else
+			else // Mode connexion
 			{
 				ResultSet rs = _model.connection(pseudo, password);
 				int idUser = -1;
+				int nbMatchGagneSolo = 0;
+				int nbMatchPerduSolo = 0;
+				int nbMatchNulSolo = 0;
+				
+				int nbMatchGagneOnline = 0;
+				int nbMatchPerduOnline = 0;
+				int nbMatchNulOnline = 0;
 				int cpt = 0;
 				while(rs.next())
 				{
 					idUser = rs.getInt("IdUser");
+					pseudo = rs.getString("Pseudo");
+					
+					nbMatchGagneSolo = rs.getInt("NbMatchGagne");
+					nbMatchPerduSolo = rs.getInt("NbMatchPerdu");
+					nbMatchNulSolo = rs.getInt("NbMatchNul");
+					
+					nbMatchGagneOnline = rs.getInt("NbMatchGagneOnLine");
+					nbMatchPerduOnline = rs.getInt("NbMatchPerduOnLine");
+					nbMatchNulOnline = rs.getInt("NbMatchNulOnLine");
 					++cpt;
 				}
-				
 				HttpSession s = request.getSession();
 				
 				if(cpt > 0)
 				{
 					s.setAttribute("pseudo", pseudo);
 					s.setAttribute("idUser", idUser);
+					
+					s.setAttribute("nbMatchGagneSolo", nbMatchGagneSolo);
+					s.setAttribute("nbMatchPerduSolo", nbMatchPerduSolo);
+					s.setAttribute("nbMatchNulSolo", nbMatchNulSolo);
+					s.setAttribute("nbMatchGagneOnline", nbMatchGagneOnline);
+					s.setAttribute("nbMatchPerduOnline", nbMatchPerduOnline);
+					s.setAttribute("nbMatchNulOnline", nbMatchNulOnline);
+				}
+				else
+				{
+					s.setAttribute("error", true);
+					s.setAttribute("typeError", "Problème d'authentification");
+					s.setAttribute("msgError", "Les informations fournies ne nous ont pas permis de vous authentifier.");
+					s.setAttribute("modal", "connexion");
 				}
 				
 				s.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
