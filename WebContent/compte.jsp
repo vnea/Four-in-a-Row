@@ -124,9 +124,9 @@
 			   
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
-			      	<li><a href="#">Accueil</a></li>
+			      	<li><a href="index.jsp">Accueil</a></li>
 			         <li><a href="rooms.jsp">Rooms</a></li>
-			         <li class="active"><a href="compte.jsp">Mon compte</a></li>
+			         <li class="active"><a href="#">Mon compte</a></li>
 			      </ul>
 
 		        <ul class="nav navbar-nav navbar-right margin-right-5">

@@ -37,8 +37,7 @@
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
 			      	<li><a href="index.jsp">Accueil</a></li>
-			         <li><a href="#">Rooms</a></li>
-			         <li><a href="#">Tournois</a></li>
+			         <li><a href="rooms.jsp">Rooms</a></li>
 			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 

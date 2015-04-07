@@ -56,7 +56,6 @@
 			      <ul class="nav navbar-nav">
 			      	<li><a href="index.jsp">Accueil</a></li>
 			         <li class="active"><a href="#">Rooms</a></li>
-			         <li><a href="#">Tournois</a></li>
  			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 
