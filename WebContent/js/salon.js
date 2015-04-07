@@ -6,7 +6,14 @@ var GAME = {
 		nbCols: 7,
 		circleSize: 105,
 		canvasWidth: 752,
-		speedInMs: 100
+		speedInMs: 100,
+		player: null,
+		currentPlayer: null,
+		currentPosCursorX: -1,
+		oldPosCursorX: -1,
+		redPiece: new Image(),
+		yellowPiece: new Image(),
+		isPlayerOneTurn: true
 	},
 	
 	init: function () {
@@ -15,19 +22,51 @@ var GAME = {
 		GAME.drawImage("background_grid", 0, 0);
 		
 		GAME.env.socket.onmessage = GAME.onMessage;
-		
-		canvas.addEventListener("click", function (event) {
-			var x = event.pageX - $(canvas).offset().left;
-			var posCursorX = Math.floor(x / (GAME.env.canvasWidth / GAME.env.nbCols));
-		    var gameAction = {
-		            action: "playGame",
-		            posX: posCursorX,
-		            idGame: GAME.getIdGame()
-		    };
-		    
-		    GAME.env.socket.send(JSON.stringify(gameAction));
-		});
-		
+		GAME.env.redPiece.src = "img/red.png";
+		GAME.env.yellowPiece.src = "img/yellow.png";
+
+		if ($("#p1").text() !== "" || $("#p2").text() !== "") {
+			canvas.addEventListener("mousemove", function (event) {
+				if (GAME.env.player == GAME.env.currentPlayer) {
+					var x = event.pageX - $(canvas).offset().left;
+					var posCursorX = Math.floor(x / (GAME.env.canvasWidth / GAME.env.nbCols));
+					GAME.env.currentPosCursorX = posCursorX;
+					if (GAME.env.ol1dPosCursorX === -1) {
+						GAME.env.oldPosCursorX = posCursorX;
+					}
+					if (GAME.env.oldPosCursorX !== posCursorX) {
+						GAME.clearImage(GAME.env.oldPosCursorX * GAME.env.circleSize + 60, 88);
+						GAME.env.oldPosCursorX = posCursorX;
+					}
+						
+					GAME.drawLoadedImage(GAME.env.isPlayerOneTurn ? GAME.env.redPiece : GAME.env.yellowPiece,
+										 posCursorX * GAME.env.circleSize + 10, 40);
+				}
+			});
+			
+			canvas.addEventListener("click", function (event) {
+				if (GAME.env.player == GAME.env.currentPlayer) {
+					var x = event.pageX - $(canvas).offset().left;
+					var posCursorX = Math.floor(x / (GAME.env.canvasWidth / GAME.env.nbCols));
+				    var gameAction = {
+				            action: "playGame",
+				            posX: posCursorX,
+				            idGame: GAME.getIdGame()
+				    };
+				    
+				    GAME.env.socket.send(JSON.stringify(gameAction));
+				}
+				else {
+					alert("Ce n'est pas votre tour !");
+				}
+			});
+		}
+		else {
+			canvas.addEventListener("click", function (event) {
+				alert("Mode spectateur !");
+			});
+		}
+
 		$(document).on("click", "#launchGame", function (event) {
 			event.preventDefault();
 			$(this).remove();
@@ -48,9 +87,10 @@ var GAME = {
 		    };
 		    
 		    GAME.env.socket.send(JSON.stringify(gameAction));
-		}, 1000);
+		}, 200);
 		
 		if ($("#p1").text() === "") {
+			GAME.env.player = $("#p2").text();
 			setTimeout(function () {
 				    var gameAction = {
 				            action: "refreshRoomGame",
@@ -58,7 +98,11 @@ var GAME = {
 				    };
 				    
 				    GAME.env.socket.send(JSON.stringify(gameAction));
-			}, 2000);
+			}, 200);
+		}
+		else {
+			GAME.env.player = $("#p1").text();
+			$("#p1Div").removeClass("vHidden");
 		}
 	},
 	
@@ -66,16 +110,18 @@ var GAME = {
 		var game = JSON.parse(event.data);
 		if (game.idGame === GAME.getIdGame()) {
 			if (game.action === "updateGame" || game.action === "initGame") {
+				GAME.env.currentPlayer = game.p;
+				GAME.env.isPlayerOneTurn = game.playerOneTurn;
 				//GAME.drawImage("background_grid", 0, 0);
 				for (var i = 0; i < GAME.env.nbRows; ++i) {
 					for (var j = 0; j < GAME.env.nbCols; ++j) {
 						var index = i + j * GAME.env.nbCols;
 						if (game[index] === "empty") {
-							GAME.drawCircle(j * GAME.env.circleSize + 60, i * GAME.env.circleSize + 110); 
+							GAME.drawCircle(j * GAME.env.circleSize + 60, i * GAME.env.circleSize + 210); 
 						}
 						else {
 							if (game.lastPosX != j || game.lastPosY != i) {
-								GAME.drawImage(game[index], j * GAME.env.circleSize + 10, i * GAME.env.circleSize + 60);
+								GAME.drawImage(game[index], j * GAME.env.circleSize + 10, i * GAME.env.circleSize + 160);
 							}
 						}
 					}
@@ -100,19 +146,37 @@ var GAME = {
 			if (game.action === "refreshRoomGame") {
 				$("#p1").text(game.p1);
 				$("#p2").text(game.p2);
-				$("#p2Div").removeClass("hidden");
+				$("#p1Div").removeClass("vHidden");
+				$("#p2Div").removeClass("vHidden");
 				$("#launchGame").removeClass("disabled");
 			}
 		}
 	},
 	
-	drawCircle: function (posX, posY) {
+	clearImage: function (posX, posY) {
 		GAME.env.ctx.beginPath();
 		GAME.env.ctx.arc(posX, posY, 50, 0, 2 * Math.PI);
+		GAME.env.ctx.lineWidth = 5;
+		GAME.env.ctx.strokeStyle = "white";
 		GAME.env.ctx.fillStyle = "white";
 		GAME.env.ctx.fill();
 		GAME.env.ctx.stroke();
 		GAME.env.ctx.closePath();
+	},
+	
+	drawCircle: function (posX, posY) {
+		GAME.env.ctx.beginPath();
+		GAME.env.ctx.arc(posX, posY, 50, 0, 2 * Math.PI);
+		GAME.env.ctx.lineWidth = 1;
+		GAME.env.ctx.strokeStyle = "black";
+		GAME.env.ctx.fillStyle = "white";
+		GAME.env.ctx.fill();
+		GAME.env.ctx.stroke();
+		GAME.env.ctx.closePath();
+	},
+	
+	drawLoadedImage: function (img, posX, posY) {
+		GAME.env.ctx.drawImage(img, posX, posY);
 	},
 	
 	drawImage: function (pieceName, posX, posY) {
@@ -131,11 +195,12 @@ var GAME = {
 	},
 	
 	drawDescendingPiece: function (pieceName, lastPosX, lastPosY) {
-		GAME.drawImage(pieceName, lastPosX * GAME.env.circleSize + 10, 60);
+		GAME.clearImage(GAME.env.currentPosCursorX * GAME.env.circleSize + 60, 88);
+		GAME.drawImage(pieceName, lastPosX * GAME.env.circleSize + 10, 160);
 		for (var i = 0; i < lastPosY; ++i) {
 			var x = lastPosX * GAME.env.circleSize;
 			var y = i * GAME.env.circleSize;
-			GAME.drawAndClearPiece(pieceName, x + 10, y + 165, x + 60, y + 110, i);
+			GAME.drawAndClearPiece(pieceName, x + 10, y + 265, x + 60, y + 210, i);
 		}
 	},
 	

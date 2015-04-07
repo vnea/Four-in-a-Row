@@ -28,7 +28,7 @@ var ROOMS = {
 		    };
 		    
 		    ROOMS.env.socket.send(JSON.stringify(roomAction));
-		}, 1000);
+		}, 200);
 	},
 	
 	onMessage: function (event) {
@@ -46,7 +46,7 @@ var ROOMS = {
 		var $elem = $("<tr></tr>");
 		$elem.append("<td>" + room.idRoom + "</td>");
 		$elem.append("<td>" + room.nbPlayers + "/2</td>");
-        $elem.append('<td><a href="#" class="btn btn-primary">Regarder</a></td>');
+        $elem.append('<td><a id="spec' + room.idRoom + '" href="#" class="btn btn-primary">Regarder</a></td>');
 		var status = room.nbPlayers == 1 ? "" : " disabled";
 		$elem.append('<td><a id="' + room.idRoom + '" href="#" class="btn btn-success' + status + '">Rejoindre</a></td>');
 		
@@ -64,6 +64,11 @@ var ROOMS = {
 		    };
 		    
 			ROOMS.env.socket.send(JSON.stringify(roomAction));
+		});
+		
+		$(document).on("click", "#spec" + room.idRoom, function () {
+		    $("form>input[name='idGame']").val(room.idRoom);
+		    $("form").submit();
 		});
 	},
 	
