@@ -13,7 +13,8 @@ var GAME = {
 		oldPosCursorX: -1,
 		redPiece: new Image(),
 		yellowPiece: new Image(),
-		isPlayerOneTurn: true
+		isPlayerOneTurn: true,
+		isGameRunning: false
 	},
 	
 	init: function () {
@@ -57,7 +58,9 @@ var GAME = {
 				    GAME.env.socket.send(JSON.stringify(gameAction));
 				}
 				else {
-					alert("Ce n'est pas votre tour !");
+					if (GAME.env.isGameRunning) {
+						alert("Ce n'est pas votre tour !");
+					}
 				}
 			});
 		}
@@ -110,6 +113,7 @@ var GAME = {
 		var game = JSON.parse(event.data);
 		if (game.idGame === GAME.getIdGame()) {
 			if (game.action === "updateGame" || game.action === "initGame") {
+				GAME.env.isGameRunning = true;
 				GAME.env.currentPlayer = game.p;
 				GAME.env.isPlayerOneTurn = game.playerOneTurn;
 				//GAME.drawImage("background_grid", 0, 0);
@@ -135,7 +139,9 @@ var GAME = {
 						GAME.drawDescendingPiece(game[index], game.lastPosX, game.lastPosY);
 					}
 					else {
-						alert("Coup invalide !");
+						if (GAME.env.player == GAME.env.currentPlayer) {
+							alert("Coup invalide !");
+						}
 					}
 				}
 			}

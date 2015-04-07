@@ -19,17 +19,12 @@
 		<title>Salon - <% out.print(idGame); %></title>
 	</head>
 	<body>
-	<%
-	String pseudo = (String)session.getAttribute("pseudo");
-	Integer idUser = (Integer)session.getAttribute("idUser");
-	%>
-	 <input type="hidden" name="pseudo" value="<% out.print(pseudo);%>"> 
-	 <input type="hidden" name="idUser" value="<% out.print(idUser);%>">
+
 	<div class="container-fluid">
 		<header class="navbar navbar-bright navbar-fixed-top" role="banner" >
 			<nav class="navbar navbar-inverse navbar-fixed-top" >
 			   <div class="navbar-header">
-			      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+			      <button type="button" class="navbar-toggle" data-toggle="collapse"
 			         data-target="#navbarContent">
 			         <span class="sr-only">Toggle navigation</span>
 			         <span class="icon-bar"></span>
@@ -42,7 +37,8 @@
 		      <div class="collapse navbar-collapse" id="navbarContent">
 			      <ul class="nav navbar-nav">
 			      	<li><a href="index.jsp">Accueil</a></li>
-			         <li><a href="rooms.jsp">Rooms</a></li>
+			         <li><a href="#">Rooms</a></li>
+			         <li><a href="#">Tournois</a></li>
 			         <li><a href="compte.jsp">Mon compte</a></li>
 			      </ul>
 
@@ -50,23 +46,13 @@
 		         <li class="dropdown">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-		            	
-		        		<%if(pseudo != null){ out.print(pseudo);%>
-		        		<%}else{ %>
-		        		Invité
-		        		<%} %>
-		        		 <b class="caret"></b>
+		        		VictorOuConnexion <b class="caret"></b>
 		            </a>
 		            <ul class="dropdown-menu">
-		            <%if(pseudo != null){%>
 		               <li><a href="#">Mon Compte</a></li>
 		              <li><a href="#">Mes stats</a></li>
-		               <li><a href="#" id="logout">Déconnexion</a></li>
-					<%}
-		            else{%>
-		               <li><a href="#" id="linkConnection">Connexion</a></li>
-		              <li><a href="#" id="linkInscription">S'inscrire</a></li>
-		              <%} %>
+		               <li><a href="#">Déconnexion</a></li>
+
 		            </ul>
 		         </li>
 		      </ul>
@@ -131,9 +117,6 @@
 				}
 				%>
 			</div>
-			<form id="formLogOut" action="Connection" method="GET" style="display:none;">
-				<input type="text" name="logout" value="true">
-			</form>
 		</div>
 	</div>
 	</body>
