@@ -17,7 +17,7 @@ public class Game
 		_id = id;
 		_gridGame = new Grid(Constants.C_NB_ROWS, Constants.C_NB_COLS);
 		_p1 = new Player(p1, Color.red);
-		_p1 = new Player(p2, Color.yellow);
+		_p2 = new Player(p2, Color.yellow);
 	}
 	
 	public void play(int aPosX)
@@ -31,6 +31,7 @@ public class Game
 	public JsonObject getStateGame()
 	{
 		return _gridGame.getStateGrid().add("playerOneTurn", _playerOneTurn)
+									   .add("p", _playerOneTurn ? _p1.getId() : _p2.getId())
 									   .add("idGame", _id)
 									   .build();
 	}

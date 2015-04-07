@@ -76,7 +76,7 @@
 
 		<div class="container fill bg" >
 			<div class="row margin-top-hackNavbar">
-				<div class="col-xs-2" >
+				<div id="p1Div" class="col-xs-2 vHidden" >
 					<div class="row text-center margin-top-hackNavbar">
 						<div class="col-xs-12">
 							<img src="img/user3.png" class="img-responsive image-center" alt="Responsive image" >
@@ -96,7 +96,7 @@
 				<div class="col-xs-8" >
 					<div class="row text-center margin-top-hackNavbar">
 						<div class="col-xs-12">
-							<canvas id="mainCanvas" width="750" height="700">
+							<canvas id="mainCanvas" width="750" height="800">
 								Not compatible.
 							</canvas>
 						</div>
@@ -107,7 +107,7 @@
 				<% String p2 = request.getParameter("p2"); %>
 
 
-				<div id="p2Div" class="col-xs-2 hidden" >
+				<div id="p2Div" class="col-xs-2 vHidden" >
 					<div class="row text-center margin-top-hackNavbar">
 						<div class="col-xs-12">
 							<img src="img/user3.png" class="img-responsive image-center" alt="Responsive image" >

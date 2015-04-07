@@ -57,7 +57,7 @@ filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, St
 	margin-top:20px;
 }
 
-.hidden
+.vHidden
 {
-	display: none;
+	visibility: hidden;
 }
