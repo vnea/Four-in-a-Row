@@ -13,7 +13,10 @@
 		
 		
 		<script type="text/javascript" src="js/salon.js"></script>
-		<title>Salon</title>
+		<%
+			String idGame = request.getParameter("idGame");
+		%>
+		<title>Salon - <% out.print(idGame); %></title>
 	</head>
 	<body>
 
@@ -68,8 +71,11 @@
 							<img src="img/red.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
 						</div>
 					</div>
+					<%
+						String p1 = request.getParameter("p1");
+					%>
 					<div class="row text-center">
-						<h3 style="color:#04478A; font-weight: bold;">VictorZer</h3>
+						<h3 id="p1" style="color:#04478A; font-weight: bold;"><% out.print(p1); %></h3>
 					</div>
 				</div>
 
@@ -84,21 +90,32 @@
 					 
 				</div>
 
-				<div class="col-xs-2" >
+				<% String p2 = request.getParameter("p2"); %>
+
+
+				<div id="p2Div" class="col-xs-2 hidden" >
 					<div class="row text-center margin-top-hackNavbar">
 						<div class="col-xs-12">
-							<img src="img/computer.png" class="img-responsive image-center" alt="Responsive image" >
+							<img src="img/user3.png" class="img-responsive image-center" alt="Responsive image" >
 						</div>
 						<div class="col-xs-12 top-20">
-							<img src="img/gray.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
+							<img src="img/yellow.png" class="img-responsive image-center" alt="Responsive image" width="50px;">
 						</div>
 					</div>
 					<div class="row text-center">
-						<h3 style="color:#04478A; font-weight: bold;">Ordinateur</h3>
+						<h3 id="p2" style="color:#04478A; font-weight: bold;"><% out.print(p2); %></h3>
 					</div>
 				</div>
 
-
+				
+				<%
+				if (p1 != null && !p1.equals(""))
+				{
+				%>
+				<button id="launchGame" class="btn btn-primary disabled" style="margin-left:0px;">Commencer</button>
+				<%
+				}
+				%>
 			</div>
 		</div>
 	</div>

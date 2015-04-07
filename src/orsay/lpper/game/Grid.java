@@ -13,6 +13,7 @@ public class Grid
 	private Square[][] _gridSquare;
 	private int _lastPosX = -1;
 	private int _lastPosY = -1;
+	private boolean _lastMoveOk = false;
 	
 	public Grid(int aNumberOfRows, int aNumberOfCols)
 	{
@@ -31,22 +32,33 @@ public class Grid
 		}
 	}
 	
-	public void addPiece(boolean aPlayerOneTurn, int aPosX)
+	public void endOfGame()
+	{
+		
+	}
+	
+	public boolean addPiece(boolean aPlayerOneTurn, int aPosX)
 	{
 		_lastPosX = aPosX;
 		_lastPosY = Constants.C_NB_ROWS - 1;
-		while (!_gridSquare[_lastPosY][_lastPosX].isEmpty())
+		while (_lastPosY >= 0 && !_gridSquare[_lastPosY][_lastPosX].isEmpty())
 		{
 			--_lastPosY;
 		}
 		
-		_gridSquare[_lastPosY][_lastPosX].addPiece(new Piece(aPlayerOneTurn ? Color.red : Color.yellow));
+		_lastMoveOk = _lastPosY != -1;
+		if (_lastMoveOk)
+		{
+			_gridSquare[_lastPosY][_lastPosX].addPiece(new Piece(aPlayerOneTurn ? Color.red : Color.yellow));
+		}
+		
+		return _lastMoveOk;
 	}
 	
 	public JsonObjectBuilder getStateGrid()
 	{
 		JsonObjectBuilder job = JsonProvider.provider().createObjectBuilder();
-		job.add("action", "update");
+		job.add("action", "updateGame");
 		for (int y = 0; y < _numberOfRows; ++y)
 		{
 			for (int x = 0; x < _numberOfCols; ++x)
@@ -57,6 +69,7 @@ public class Grid
 		
 		job.add("lastPosX", Integer.toString(_lastPosX));
 		job.add("lastPosY", Integer.toString(_lastPosY));
+		job.add("lastMoveOk", _lastMoveOk);
 
 		return job;
 	}

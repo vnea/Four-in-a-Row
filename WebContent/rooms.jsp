@@ -11,6 +11,8 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>
 		<script src="js/dataTables.bootstrap.js"></script>
+		<script src="js/rooms.js"></script>
+		
 		<title>Salons</title>
 		<script>
 			$(function() {
@@ -34,7 +36,7 @@
 					$('.modal:visible').each(reposition);
 				});
 
-				 $('#mytable').dataTable();
+				// $('#mytable').dataTable();
 			});
 
 		</script>
@@ -100,8 +102,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-xs-4 col-xs-offset-4" style="padding-left:0px;">
-										<button class="btn btn-primary" style="margin-left:0px;"> Créer une partie</button>
-
+									<button id="createRoom" class="btn btn-primary" style="margin-left:0px;">Créer une partie</button>
 								</div>
 							</div>
 						</form>
@@ -129,119 +130,17 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>dede</td>
-				                <td>2/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success disabled">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>karlito</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>GrailleTonKO</td>
-				                <td>2/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success disabled">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>BenoitDeCoco</td>
-				                <td>2/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success disabled">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>SebastienMoiLaMain</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>LaPecheAuJeton - Loic</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>Khoya's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-				            				            <tr>
-				                <td>toto's room</td>
-				                <td>1/2</td>
-				                <td><a href="nomRoom" class="btn btn-primary">Regarder</a></td>
-				                <td><a href="nomRoom" class="btn btn-success">Rejoindre</a></td>
-				            </tr>
-
+ 							</tbody>
 						</table>
 						</div>
 					</div>
 				</div>
+				
+				<form action="salon.jsp" method="post" style="display:none;">
+					<input type="hidden" name="idGame">
+					<input type="hidden" name="p1">
+					<input type="hidden" name="p2">
+				</form>
 			</div>
 		</div>
 	</div>
