@@ -144,6 +144,10 @@ var GAME = {
 						}
 					}
 				}
+				
+				if (game.won) {
+					alert("Partie gagnée par " + GAME.env.currentPlayer + " !");
+				}
 			}
 			else if (game.action === "noGame") {
 				//alert("No game found");

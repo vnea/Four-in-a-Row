@@ -14,6 +14,7 @@ public class Grid
 	private int _lastPosX = -1;
 	private int _lastPosY = -1;
 	private boolean _lastMoveOk = false;
+	private boolean _won = false;
 	
 	public Grid(int aNumberOfRows, int aNumberOfCols)
 	{
@@ -37,6 +38,47 @@ public class Grid
 		
 	}
 	
+	private boolean checkWinRows() {
+        // Check rows and see if there are 4 disks of the same color
+        for (int y = 0; y < _numberOfRows; ++y) {
+            int count = 0;
+            for (int x = 1; x < _numberOfCols; ++x) {
+                if (!_gridSquare[y][x].isEmpty() && _gridSquare[y][x].getPieceColor() == _gridSquare[y][x - 1].getPieceColor()) {
+                    ++count;
+                }
+                else {
+                    count = 1;
+                }
+
+                if (count >= 4) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	 private boolean checkWinColumns() {
+        for (int x = 0; x < _numberOfCols; ++x) {
+            int count = 0;
+            // We will compare current element with the previous
+            for (int y = 1; y < _numberOfRows; ++y) {
+                if (!_gridSquare[y][x].isEmpty() && _gridSquare[y][x].getPieceColor() == _gridSquare[y - 1][x].getPieceColor()) {
+                    ++count;
+                }
+                else {
+                    count = 1;
+                }
+
+                if (count >= 4) {
+                    return true;
+                }
+            }
+        }
+        return false;
+	 }
+
+	
 	public boolean addPiece(boolean aPlayerOneTurn, int aPosX)
 	{
 		_lastPosX = aPosX;
@@ -50,6 +92,7 @@ public class Grid
 		if (_lastMoveOk)
 		{
 			_gridSquare[_lastPosY][_lastPosX].addPiece(new Piece(aPlayerOneTurn ? Color.red : Color.yellow));
+			//_won = checkWinRows() || checkWinColumns();
 		}
 		
 		return _lastMoveOk;
@@ -70,6 +113,7 @@ public class Grid
 		job.add("lastPosX", Integer.toString(_lastPosX));
 		job.add("lastPosY", Integer.toString(_lastPosY));
 		job.add("lastMoveOk", _lastMoveOk);
+		job.add("won", _won);
 
 		return job;
 	}
